@@ -1,0 +1,49 @@
+#!/usr/bin/python3
+
+from help import *
+
+
+def harmonic_mean(test, n, sd):
+    return (n + 1) / ((1 / test) + (n / sd))
+
+def standard_deviation(test, n, ari, stand):
+    return sqrt(((((pow(stand, 2) + pow(ari, 2)) * n) + pow(test, 2))/ (n + 1)) - pow(arithmetic_mean(test, n ,ari), 2))
+
+def root_mean_square(test, n, stand, ari):
+    return sqrt((1/(n+1)) * (((pow(stand, 2) + pow(ari, 2)) * n) + pow(test, 2)))
+
+def arithmetic_mean(test, n, ari):
+    return (((n-1)*ari) + test)/n
+
+def print_vals(n, ari, har, stand, test):
+    print("\tNumber of values:   %d\n\
+\tStandard deviation: %.2f\n\
+\tArithmetic mean:    %.2f\n\
+\tRoot mean square:   %.2f\n\
+\tHarmonic mean:      %.2f\n"%(int(n), standard_deviation(test, n, ari, stand), arithmetic_mean(test, n, ari), root_mean_square(test, n, stand, ari), harmonic_mean(test, n, har)))
+
+def neutrinos(n, ari, har, stand):
+    test = ""
+    while(test != "END\n" and test != "END"):
+        print("Enter next value: ", end="")
+        try:
+            test = input()
+        except(EOFError):
+            exit(84)
+        if(test == "END\n" or test == "END"):
+            break
+        try:
+            test = float(test)
+        except:
+            exit(84)
+        n += 1
+        new_std = standard_deviation(test, n, ari, stand)
+        new_ari = arithmetic_mean(test, n, ari)
+        new_har = harmonic_mean(test, n, har)
+        print_vals(n, ari, har, stand, test)
+        stand = new_std
+        ari = new_ari
+        har = new_har
+
+
+neutrinos(float(argv[1]), float(argv[2]), float(argv[3]), int(argv[4]))
